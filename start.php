@@ -68,6 +68,15 @@ function list_dir_contents($dir) {
 
 		$subdir = "{$dir}{$name}/";
 		if (is_dir($subdir)) {
+			if (ctype_digit($name)) {
+				// We're guessing that this is a GUID
+				// TODO Confirm this e.g. from the directory path
+				if (!get_entity($name)) {
+					// Notify that the entity owning this directory doesn't exist anymore
+					echo " <span style=\"color: red;\">ORPHAN</span>";
+				}
+			}
+
 			echo "<ul>";
 			list_dir_contents($subdir);
 			echo "</ul>";
